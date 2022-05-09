@@ -40,7 +40,15 @@ public class Model {
 		creaGrafo();
 		Map<Fermata, Fermata> alberoInverso = visitaGrafo(partenza);
 		
-		return null;
+		Fermata corrente = arrivo;
+		List<Fermata> percorso = new ArrayList<>(); //se ho problemi di efficienza uso linkedlist
+		
+		while(corrente!=null) { //null messo nella mappa come predecessore del nodo di partenza
+			percorso.add(0, corrente); 
+			corrente = alberoInverso.get(corrente);
+		}
+		
+		return percorso;
 	}
 	
 
@@ -61,19 +69,22 @@ public class Model {
 	
 	public Map<Fermata, Fermata> visitaGrafo(Fermata partenza) {
 		GraphIterator<Fermata, DefaultEdge> visita = new BreadthFirstIterator<>(this.grafo, partenza); //grafo e vertice di partenza
+		
 		Map<Fermata, Fermata> alberoInverso = new HashMap<>();
 		alberoInverso.put(partenza, null); // non esiste predecessore
 		
-		visita.addTraversalListener(new RegistraAlberoDiVisita(alberoInverso, grafo));
+		visita.addTraversalListener(new RegistraAlberoDiVisita(alberoInverso, grafo)); //BreadthFirstIterator ha gia getParent e get SpanningTreeEdge
 		while(visita.hasNext()) {
 			Fermata f = visita.next();
-			System.out.println(f);
+//			System.out.println(f);
 		}
 		
 		List<Fermata> percorso = new ArrayList<>();
 //		fermata = arrivo;
 //		while(fermata!=null)
 //			fermata = alberoInverso.get(fermata);
+		
+		return alberoInverso;
 	}
 
 
