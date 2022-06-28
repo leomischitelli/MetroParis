@@ -28,6 +28,7 @@ public class Model {
 			MetroDAO dao = new MetroDAO();
 			this.fermate = dao.getAllFermate();
 		}
+		
 		this.fermateIdMap = new HashMap<Integer, Fermata>();
 		for(Fermata f : this.fermate) {
 			fermateIdMap.put(f.getIdFermata(), f);
